@@ -1,0 +1,2 @@
+- `npm init -y`
+    - to create a package.json file
