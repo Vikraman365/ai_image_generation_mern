@@ -3,6 +3,7 @@ import React,{useState,useEffect} from 'react'
 import { Loader,Card,FormField } from '../components'
 
 const RenderCards=({data,title})=>{
+    console.log(data,"inside render cards");
 if(data?.length>0){ return data.map((post)=><Card key={post._id} {...post}/>)
 }
 return (
@@ -13,6 +14,36 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [allPosts, setAllPosts] = useState(null);
     const [searchText, setSearchText] = useState('');
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                setLoading(true);
+                const response = await fetch('http://localhost:8080/api/v1/post',{
+                    method:'GET',
+                    headers:{
+                        'Content-Type':'application/json'
+                    }
+                });
+                if (response.ok){
+
+                    const result = await response.json();
+                    setAllPosts(result.data.reverse());
+                    
+                }
+                
+            } catch (error) {
+                console.error(error);
+                alert(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPosts();
+    }
+    , []);
+
 
     return (
         <section className='max-w-7xl mx-auto'>
@@ -46,7 +77,7 @@ const Home = () => {
     title="No results found"
     />
 ) : (
-    <RenderCards data={[]}
+    <RenderCards data={allPosts}
     title="No posts found"
     />
 )

@@ -51,10 +51,40 @@ const CreatePost = () => {
     }
     }
 
-    const handleSubmit = ()=>{
 
+    const handleSubmit = async(e)=>{
+        e.preventDefault();
+        console.log("bbbbbbbbbbbbbbb")
+        console.log(form,"formmmm");
+        if(form.prompt && form.photo){
+            setLoading(true);
+            try{
+                const response = await fetch('http://localhost:8080/api/v1/post',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify(form)
+                    }
+
+               
+                );
+                const data = await response.json();
+                console.log(data);
+                navigate('/');
+            }
+            catch(error){
+                console.log(error);
+                alert(error.message);
+            }
+            finally{
+                setLoading(false);
+            }
     }
-
+    else{
+        alert('Please enter a prompt and generate an image')
+    }
+}
     const handleChange = (e)=>{
         setForm({...form,[e.target.name]:e.target.value})
             
@@ -141,5 +171,6 @@ const CreatePost = () => {
     </section>
   )
 }
+
 
 export default CreatePost

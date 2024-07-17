@@ -3,7 +3,7 @@ import fs from 'fs';
 
 const hugging_key = process.env.HUGGING_FACE_KEY;
 
-const MAX_RETRIES = 5;
+const MAX_RETRIES = 10;
 const RETRY_DELAY = 2000; // 2 seconds
 
 async function sleep(ms) {
@@ -36,7 +36,7 @@ async function query(data) {
                 if (errorData.error && errorData.error.includes('currently loading')) {
                     const waitTime = errorData.estimated_time || RETRY_DELAY;
                     console.log(`Model is loading, retrying in ${waitTime} ms...`);
-                    await sleep(waitTime);
+                    await sleep(waitTime+1000);
                     attempts++;
                     continue;
                 } else {
