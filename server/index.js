@@ -1,11 +1,11 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
-
 import connectDB from './mongodb/connect.js';
 import postRoutes from './routes/postRoutes.js';
 import dalleRoutes from './routes/dalleRoutes.js';
-//  .js needs to be addedd in nodejs, but not in react
+import cron from 'node-cron';
+import axios from 'axios';
 
 dotenv.config();
 
@@ -16,22 +16,31 @@ app.use(express.json({ limit: '50mb' }));
 app.use('/api/v1/post', postRoutes);
 app.use('/api/v1/dalle', dalleRoutes);
 
-
-app.get('/', async(req, res) => {
+app.get('/', async (req, res) => {
     res.send('Hello from dall-e');
-    });
+});
 
-const startServer=  async () => {
-    try{
+// Set up the cron job
+cron.schedule('*/13 * * * *', async () => {
+    try {
+        const response = await axios.get('https://ai-image-generation-mern-2m4o.onrender.com/');
+        console.log('API call response:', response.data);
+    } catch (error) {
+        console.error('Error making API call:', error);
+    }
+});
+
+console.log('Cron job set to make API call every 13 minutes');
+
+const startServer = async () => {
+    try {
         connectDB(process.env.MONGODB_URL);
         app.listen(8080, () => {
             console.log(`Server is running on port 8080`);
-        })
+        });
     } catch (error) {
         console.log(error);
     }
-
-
-}
+};
 
 startServer();
