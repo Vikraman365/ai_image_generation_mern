@@ -18,7 +18,7 @@ router.route("/:prompt").get((req, res) => {
     return res.sendFile(`${process.cwd()}/generated_images/${req.params.prompt}.png`);
 });
 
-const server_address=process.env.SERVER_ADDRESS || 'http://localhost:8080';
+const server_address=process.env.SERVER_ADDRESS || 'https://ai-image-generation-mern-2m4o.onrender.com';
 // 9488375588 -> 1180
 router.route('/').post(async (req, res) => {
     try {
