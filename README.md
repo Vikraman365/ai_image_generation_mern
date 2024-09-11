@@ -1,10 +1,8 @@
 # ai_image_generation_mern
 
-
 - deployed link for backend
-    - https://ai-image-generation-mern-2m4o.onrender.com
+
+  - http://localhost:8080
 
 - deployed link for frontend
-    - https://letscreate.netlify.app/create-post
-
-    
+  - https://letscreate.netlify.app/create-post

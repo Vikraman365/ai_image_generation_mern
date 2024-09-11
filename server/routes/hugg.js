@@ -18,7 +18,7 @@ async function query(data) {
     while (attempts < MAX_RETRIES) {
         try {
             const response = await fetch(
-                "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5",
+                "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-schnell",
                 {
                     headers: {
                         Authorization: "Bearer " + hugging_key,
